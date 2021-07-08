@@ -1,0 +1,71 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void insertion_sort(int arr[], int size)
+{
+    for (int step = 1; step < size; step++)
+    {
+        int key = arr[step];
+        int j = step - 1;
+        while (key > arr[j] && j >= 0)
+        {
+
+            arr[j + 1] = arr[j];
+            --j;
+        }
+        arr[j + 1] = key;
+    }
+
+}
+int main()
+{
+
+    int input[101]={0};
+    int m=100;
+    int digit[500]={0};
+    int i1=0;
+
+    int h=0;
+    int t;
+    srand(time(0));
+    int m1=0;
+    int i=0;
+
+    while(m1<100)
+    {
+        int t = rand();
+        int random = t%200;
+        if(random>=10 && random<=200)
+        {
+            input[i]=random;
+            while(input[i] > 0 )
+            {
+                int mod = input[i] % 10;
+                digit[h]=mod;
+                h++;
+                input[i] = input[i] / 10;
+            }
+            i++;
+            m1++;
+        }
+
+    }
+
+    cout<<endl;
+    int c;
+
+    int t1;
+    int d;
+
+    int flag;
+
+    int size = sizeof(digit) / sizeof(digit[0]);
+
+    insertion_sort(digit, size);
+    for(int k=0; k<h; k++)
+    {
+        cout<<digit[k]<<" ";
+    }
+    
+    cout<<endl;
+}
