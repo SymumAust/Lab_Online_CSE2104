@@ -1,0 +1,146 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int graph[100][100],status[100];
+struct Node
+{
+    int data;
+    Node* next;
+};
+
+Node* head;
+
+void push(int x)
+{
+    Node *newnode;
+    newnode=(Node*)malloc(sizeof(Node));
+    if(head==NULL)
+    {
+        newnode->data=x;
+        newnode->next=NULL;
+        head=newnode;
+    }
+    else
+    {
+        newnode->data=x;
+        newnode->next=head;
+        head=newnode;
+    }
+}
+
+int pop()
+{
+    if(head==NULL)
+    {
+        cout<<"stack is Empty"<<endl;
+        return -1;
+    }
+    else
+    {
+        int value;
+        Node *temp;
+        temp=head;
+        value=temp->data;
+        head=head->next;
+        free(temp);
+        return value;
+    }
+}
+int sizeOfStack()
+{
+    Node *temp;
+    temp=head;
+    int Size=0;
+    while(temp!=NULL)
+    {
+        Size++;
+        temp=temp->next;
+    }
+    return Size;
+}
+
+bool isEmpty()
+{
+    if(head==NULL)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+void print()
+{
+    Node *temp;
+    temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+}
+void dfs(int start,int n)
+{
+    int i;
+    push(start);
+    status[start]=2;
+    while(!isEmpty())
+    {
+        int x=pop();
+        cout<<x<<" ";
+        status[start]=3;
+
+        for(i=1; i<=n; i++)
+        {
+            if(graph[x][i]!=0 && status[i]==1)
+            {
+                push(i);
+                status[i]=2;
+            }
+        }
+    }
+}
+int main()
+{
+    int n,e;
+    cout<<"Enter no of node:"<<endl;
+    cin>>n;
+
+    cout<<"Enter no of Edge:"<<endl;
+    cin>>e;
+    cout<<"Direct Graph press 1\nIndirect Graph Press 2"<<endl;
+    int direct;
+    cin>>direct;
+
+    int so,des,we;
+    printf("Enter source and destination and weightValue: \n");
+    if(direct ==1)
+    {
+        for(int i=1; i<=e; i++)
+        {
+            scanf("%d %d%d",&so,&des,&we);
+            graph[so][des]= we;
+            status[so]=1;
+            status[des]=1;
+        }
+    }
+    else
+    {
+        for(int i=1; i<=e; i++)
+        {
+            scanf("%d %d%d",&so,&des,&we);
+            graph[so][des]= we;
+            graph[des][so]= we;
+            status[so]=1;
+            status[des]=1;
+        }
+    }
+
+    int start_node;
+    cout<<"Start Node?"<<endl;
+    cin>>start_node;
+    cout<<"DFS Traversal Sequence"<<endl;
+    dfs(start_node,n);
+    return 0;
+}
